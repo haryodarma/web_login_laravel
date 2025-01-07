@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Impl\UserServiceImpl;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use App\Services\UserService;
@@ -13,19 +14,12 @@ class UserServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         return [UserService::class];
     }
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-
-    public array $singletons = [
-        \App\Services\UserService::class => \App\Services\Impl\UserServiceImpl::class
-    ];
 
     public function register()
     {
-        //
+        $this->app->singleton(UserService::class, function ($app) {
+            return new UserServiceImpl();
+        });
     }
 
     /**
