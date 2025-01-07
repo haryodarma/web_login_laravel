@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ToDoListController;
 use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,12 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/logout', 'doLogout')->middleware(\App\Http\Middleware\MemberOnlyMiddleware::class);
 
 });
+
+Route::controller(ToDoListController::class)->middleware(\App\Http\Middleware\MemberOnlyMiddleware::class)->group(function () {
+
+    Route::get('/todolist', 'todoList');
+    Route::post('/todolist', 'addToDoList');
+    Route::post('/todolist/{id}', 'removeToDoList');
+
+});
+
